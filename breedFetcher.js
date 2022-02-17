@@ -8,10 +8,9 @@ request(`https://api.thecatapi.com/v1/breeds/search?q=${searchBreed}`, (error, r
 
   if (JSON.parse(body)[0] === undefined) {
     console.log('Error: Breed not found');
-  }
-  else {
+  } else {
     const breedDescription = JSON.parse(body)[0].description;
     console.log('Breed Description: ', breedDescription);
   }
 
-})
+});
