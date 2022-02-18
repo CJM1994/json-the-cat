@@ -1,16 +1,20 @@
 const request = require('request');
 
-const searchBreed = process.argv[2];
+const fetchBreedDescription = function (breedname, callback) {
 
-request(`https://api.thecatapi.com/v1/breeds/search?q=${searchBreed}`, (error, response, body) => {
+  request(`https://api.thecatapi.com/v1/breeds/search?q=${breedname}`, (error, response, body) => {
 
-  if (error) throw new Error('Request to server failed, check request URL (line 5) and that TheCatAPI is active');
+    if (error) return callback('Request to server failed, check request URL (line 5) and that TheCatAPI is active', null);
 
-  if (JSON.parse(body)[0] === undefined) {
-    console.log('Error: Breed not found');
-  } else {
-    const breedDescription = JSON.parse(body)[0].description;
-    console.log('Breed Description: ', breedDescription);
-  }
+    if (JSON.parse(body)[0] === undefined) {
+      callback('Error: Breed not found', null);
+    } else {
+      const breedDescription = JSON.parse(body)[0].description;
+      callback(null, breedDescription);
+    }
 
-});
+  });
+
+}
+
+module.exports = fetchBreedDescription;
